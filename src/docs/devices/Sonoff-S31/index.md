@@ -39,35 +39,47 @@ uart:
   rx_pin: RX
   baud_rate: 4800
 
+substitutions:
+  #Change device name
+  device_name: Sonoff S31
+
 binary_sensor:
   - platform: gpio
     pin:
       number: GPIO0
       mode: INPUT_PULLUP
       inverted: True
-    name: "Sonoff S31 Button"
+    name: "${device_name} Button"
     on_press:
       - switch.toggle: relay
   - platform: status
-    name: "Sonoff S31 Status"
+    name: "${device_name} Status"
 
 sensor:
   - platform: wifi_signal
-    name: "Sonoff S31 WiFi Signal"
+    name: "${device_name} Signal"
     update_interval: 60s
   - platform: cse7766
     current:
-      name: "Sonoff S31 Current"
+      name: "${device_name} Current"
       accuracy_decimals: 1
     voltage:
-      name: "Sonoff S31 Voltage"
+      name: "${device_name} Voltage"
       accuracy_decimals: 1
     power:
-      name: "Sonoff S31 Power"
+      name: "${device_name} Power"
       accuracy_decimals: 1
+  - platform: total_daily_energy
+    name: "${device_name} Daily Energy"
+    power_id: my_power
+
+time:
+  - platform: sntp
+    id: my_time
+
 switch:
   - platform: gpio
-    name: "Sonoff S31 Relay"
+    name: "${device_name} Relay"
     pin: GPIO12
     id: relay
 
